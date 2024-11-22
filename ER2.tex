@@ -1,0 +1,505 @@
+\documentclass[11pt,twoside, final]{amsart}
+%\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{mathdots}
+\usepackage{graphicx}
+\usepackage{hyperref}
+\usepackage[top=2.5cm, bottom=2.5cm, outer=2.5cm, inner=2.5cm]{geometry}
+\newtheorem{theorem}{Theorem}[section]
+\newtheorem{definition}[theorem]{Definition}
+\newtheorem{lemma}[theorem]{Lemma}
+\newtheorem{proposition}[theorem]{Proposition}
+\newtheorem{corollary}[theorem]{Corollary}
+\newtheorem{remark}[theorem]{Remark}
+\newtheorem{hypothesis}[theorem]{Hypothesis}
+\newtheorem{example}[theorem]{Example}
+\begin{document}
+\title[Explicit  Hybrid Method ]{\bf A class of explicit  hybrid method in solving mathematical chemistry systems}
+\vspace{.1 cm}
+\author[  1 ]{\bf Moosa Ebadi}
+\author[  2 ]{\bf  Higinio Ramos }
+\address{\small{\hfill\break Department of Mathematics Education,  University of Farhangian, P.O. Box: 14665-889, Tehran, Iran.}\\
+\small{\hfill\break
+ Scientific Computing Group, Universidad de Salamanca, Plaza de la Merced, 37008 Salamanca, Spain}}
+\email{m.ebadi@cfu.ac.ir}
+\email{higra@usal.es}
+\date{}
+\thanks{}
+%\footnote{ Corresponding author}\\
+\keywords{\bf IVPs,   A-stability, Stiff systems}
+\subjclass[65L05-65L20]{\bf 65L05, 65L20}
+\vspace{1cm}
+\vspace{1cm}
+\begin{abstract}
+ In this research work, a new class of seventh-order explicit multi-step methods  incorporating off-step points is presented  to solve ordinary differential initial-value systems. First, a multi-step hybrid method is designed, and then we have approximated the value of the solution at the hybrid and step points using an explicit method of order sixth. The order and stability of the proposed explicit methods have been investigated. The results show that the stability regions of this group of methods are wider compared to Runge-Kuta methods, and therefore, it provides good numerical results in solving the given examples.
+ \end{abstract}
+\maketitle \numberwithin{equation}{section}
+\section{\textbf{Introduction}}
+In recent years, various hybrid methods have been proposed and introduced by researchers in the field of numerical solution of initial value problems (IVP) in ordinary differential equations. These methods are not only swiftly employed in solving ordinary differential equations but also hold significant importance in numerically solving partial differential equations by semi-discretizing them and transforming them into systems of ordinary differential equations \cite{ALI6,ALI3,ALI5,ALI4,ALI2,ALI1}. Moreover, they are crucial in numerically solving optimal control problems \cite{OCP1,OCP2,OCP3}. In addition to multi-step hybrid methods, block hybrid methods are also used by researchers to solve differential equations, which show the importance of using intermediate points to increase the stability region and improve the effectiveness of the method  \cite{Q24, R23}. In 2010, Ebadi and Gokhale \cite{ALI1} introduced hybrid numerical derivative-based methods (HBDF) for solving initial value problems of the  form:
+\begin{equation}\label{1.2}
+\boldsymbol{u'}=\boldsymbol{f}(t,\boldsymbol{u}),\,\, \boldsymbol{u}(0)=\boldsymbol{u}_{0},\, t\in [t_{0},\,t_{N}]\subset \mathbf{R},\,\boldsymbol{u},\,\&\, \boldsymbol{f}(t, \boldsymbol{u}) \in\mathbf{R} ^{d}.
+\end{equation}
+The implicit HBDF is as follows:
+\begin{align*}
+ \bar{u}_{n+s}=& h\mu f_{n+1}+\sum_{j=0}^{k-2}\gamma_{j}u_{n+1-j},\\
+ u_{n+1}+&\sum_{j=1}^{k}\alpha_{j}u_{n+1-j}=   h\beta_{s}\bar{f}_{n+s},
+\end{align*}
+where
+$f_{n+1}=f(t_{n+1},u_{n+1}),\,\,\,\bar{f}_{n+s}=f(t_{n+s}, \bar{u}_{n+s}),\,\,\, t_{n+s}=t_{n}+sh,\quad 0< s <1,$ and $h=t_{n+1}=t_{n}$ is step size.
+In 2024, Ebadi and Shahriari \cite{ALI6} introduced  a  class of two stage multistep hybrid methods for solving time-dependent parabolic PDEs as follows:
+\begin{align}
+ \bar{u}_{n+\eta}-\sum_{j=0}^{k''}\gamma'_{j} u_{n+1-j}=& h \mu_{2} f_{n+1},\label{2.1}\\
+ \bar{u}_{n+s}-\sum_{j=0}^{k'}\gamma_{j}u_{n+1-j}=& h(\mu_{\eta} \bar{ f}_{n+\eta}+ \mu_{1} f_{n+1}),\label{2.2}\\
+u_{n+1}+\sum_{j=1}^{k}\alpha_{j}y_{n+1-j}= &  h(\beta_{1}f_{n+1}+\beta_{s}\bar{f}_{n+s}), \label{2.3}
+\end{align}
+where
+ $$ \bar{f}_{n+s}=f(t_{n+s},\bar{y}_{n+s}),\quad t_{n+s}=t_{n}+s h,\ 0<s<1,$$
+  $$ \bar{f}_{n+\eta}=f(t_{n+\eta},\bar{y}_{n+\eta}),\quad t_{n+\eta}=t_{n}+\eta h,\ 0<\eta<1.$$
+Hybrid methods in the numerical solution of differential equations, initial value problems, and the differential systems resulting from the semi-discretization of differential equations with partial derivatives are of special importance in recent years. The use of intermediate points in the design of numerical methods not only leads to the improvement of the stability of the method, but also increases the order of the method, which is important in many practical problems \cite{ALI6,ALI3,ALI5,ALI4,ALI2,ALI1}. 
+The problem of stability for stiff systems is more important in the numerical solutions of IVPs of the form \eqref{1.2}. A basic difficulty (but not the only one) for that is the satisfaction of the requirement of absolute stability. From the Dahlquist's definitions of $A-$stability in connection with stiff systems,
+the absolute stability region includes the whole  left-half complex plane  when the method is applied to test the problem $y'=\lambda y, \lambda <0$.
+\\
+\par
+\noindent
+Hybrid methods such as the class $2+1$ of hybrid methods, a new class of hybrid methods based on the second derivative, or the multi-step method based on supper-future points, are among the hybrid methods that use the hybrid regression method in their stage equations, and all are implicit methods
+\cite{ALI6,ALI3,ALI2,ALI1}. Methods such as the efficient hybrid block solver based on collocation and interpolation techniques for numerically solving stiff problems presented by Qureshi and co-authors and other examples in this field all benefit from the idea of ​​using hybrid points \cite{Q24,R23}. In addition to all these implicit methods, explicit hybrid methods for numerical solution of optimal control problems have been developed by researchers in recent years\cite{OCP1, OCP2, OCP3}. In these methods, a new idea of ​​combining explicit Runge-Kutta methods with hybrid methods has been used to obtain new explicit methods but with a wider stability regions compared to explicit Runge-Kutta methods.
+Suppose that we  use some off-step points such as $t_{n+s_{i},}\,i=1,\,2,$ together with step points such as $t_{n}$ and $t_{n+1}$,  as in the methods presented in \cite{ALI3,ALI5,ALI4,ALI2,ALI1}. The number of stage equations will definitely increase. But the method will still be implicit, whose general form is as follows:
+\begin{align}
+ \bar{u}_{n+s_{1}}-\sum_{j=0}^{k''}\gamma'_{j} u_{n+1-j}=& h \mu_{2} f_{n+1},\label{2.1}\\
+ \bar{u}_{n+s_{2}}-\sum_{j=0}^{k'}\gamma_{j}u_{n+1-j}=& h\mu_{1} f_{n+1},\label{2.2}\\
+u_{n+1}+\sum_{j=1}^{k}\alpha_{j}u_{n+1-j}= &  h(\beta_{0}f_{n}+\beta_{1}f_{n+1}+\beta_{s_{1}}\bar{f}_{n+s_{1}}+\beta_{s_{2}}\bar{f}_{n+s_{2}}), \label{2.3}
+\end{align}
+where
+$ \bar{f}_{n+s_{i}}=f(t_{n+s_{i}},\bar{u}_{n+s_{i}}), t_{n+s_{i}}=t_{n}+s_{i} h, i=1,2.$
+\par\noindent
+In this work, we intend to design new hybrid methods based on four hybrid points as follows:
+    \begin{align}
+ \bar{u}_{n+v}=u_{n}+h\sum_{j=1}^{k'}\gamma_{j}f_{n-j}+ &  h\bigg[\gamma_{s_{1}}\bar{f}_{n+s_{1}}+\gamma_{s_{2}}\bar{f}_{n+s_{2}}+\gamma_{s_{3}}\bar{f}_{n+s_{3}}\bigg], \label{2.2}\\
+u_{n+1}=u_{n}+h\sum_{j=1}^{k}\beta_{j}f_{n-j}+ &  h\bigg[\beta_{s_{1}}\bar{f}_{n+s_{1}}+\beta_{s_{2}}\bar{f}_{n+s_{2}}+\beta_{s_{3}}\bar{f}_{n+s_{3}}+\beta_{v}\bar{f}_{n+v}\bigg], \label{2.3}
+\end{align}
+where
+ $ \bar{f}_{n+i}=f(t_{n+i},\bar{u}_{n+i}), t_{n+i}=t_{n}+i h, 0<i<1,\,i\in \{ v, s_{1}, s_{2}, s_{3}\}.$
+ In this method,  the previous values ​​of the solution, i.e., $u_{n+1-j}, j=1,2,\cdots$,  ​​are used in the derivative of the solution, i.e., $f_{n+1-j}, j=1, 2,\cdots$. Furthermore,  all the valuse at three off-step points, $\bar{u}_{n+s_{i}},i=1, 2, 3,$ used ​​in the  stage equations  and  also the intermediate value $\bar{u}_{n+v}$ will be approximated by an explicit RK type single-step method so that an explicit hybrid multistep method can be obtained.
+
+\noindent
+The paper is organized as follows: In section \ref{s2}, we present a new class of explicit methods and section $3$,  addresses the truncation error of the new methods.
+In section $4$,  the stability analysis of the new methods  is considered.
+Section $5$,  presents some test problems to check the performance of the proposed methods.
+    Finally, some concluding remarks will be provided in section $6$ with respect to the numerical results related to new methods  .
+    %%%%%%%%%%%%%%%%%%%%%
+    %%%%%%%%%%%%%%%%%%%%%%%%%%%
+    
+\section{\textbf{Forming  new hybrid methods} }\label{s2}
+Consider Butcher$^{,}$s RK6 methods \cite{WBRk_6}
+\begin{align}
+    k1=& f(t_{n},u_{n}),\\\nonumber
+    k2=& f(t_{n}+\frac{h_{i}}{3},u_{n}+\frac{h_{i}}{3}k1),\\\nonumber
+    k3=& f(t_{n}+\frac{2h_{i}}{3},u_{n}+\frac{2h_{i}}{3}k2), \\\nonumber
+    k4=& f(t_{n}+\frac{h_{i}}{3},u_{n}+\frac{h_{i}}{12}k1+\frac{h_{i}}{3}k2-\frac{h_{i}}{12}k3), \\\nonumber      
+    k5=& f(t_{n}+\frac{h_{i}}{2},u_{n}-\frac{h_{i}}{16}k1+\frac{9h_{i}}{8}k2-\frac{3h_{i}}{16}k3-\frac{3h_{i}}{8}k4),\\\nonumber   
+    k6=&  f(t_{n}+\frac{h_{i}}{2},u_{n}+\frac{9h_{i}}{8}k2-\frac{3h_{i}}{8}k3-\frac{3h_{i}}{4}k4+\frac{h_{i}}{2}k5), \\\nonumber
+    k7=& f(t_{n}+h_{i},u_{n}+\frac{9h_{i}}{44}k1-\frac{9h_{i}}{11}k2+\frac{63h_{i}}{44}k3+\frac{18h_{i}}{11}k4-\frac{16h_{i}}{11}k6),\\\nonumber
+    u_{n+i}&=u_{n}+h_{i}(\frac{11}{120}k1+\frac{27}{40}k3+\frac{27}{40}k4-\frac{4}{15}k5-\frac{4}{15}k6+\frac{11}{120}k7),
+\end{align}
+where
+ $ u_{n+i}=u(t_{n+i})=u(t_{n}+ih),\,i\in \{s_{1},s_{2},s_{3}\},\ 0<s_{i}<1. $
+ We will use this method to approximate values $ \bar{s}_{n+i}), 0<i<1, i\in \{v, s_{1}, s_{2}, s_{3}\}.$
+\noindent
+Let us consider Equations $1.8$ and $1.9$. We consider two classes of this general method:
+\begin{enumerate}
+\item Class I:  $\beta_{s_{2}}=\beta_{s_{3}}=0, k=5,k'=3.$ 
+\item Class II: $\beta_{s_{2}}\neq 0, \beta_{s_{3}}\neq 0, k=k'=3.$ 
+\end{enumerate}
+For Class I, the general form of new methods results in the form below:
+\begin{align}
+ \bar{u}_{n+v}=u_{n}+h\sum_{j=1}^{3}\gamma_{j}f_{n-j}+ &  h(\gamma_{s_{1}}\bar{f}_{n+s_{1}}+\gamma_{s_{2}}\bar{f}_{n+s_{2}}+\gamma_{s_{3}}\bar{f}_{n+s_{3}}), \label{2.2}\\
+u_{n+1}=u_{n}+h\sum_{j=1}^{5}\beta_{j}f_{n-j}+ &  h(\beta_{s_{1}}\bar{f}_{n+s_{1}}+\beta_{v}\bar{f}_{n+v}), \label{2.3}
+\end{align}
+where
+ $ \bar{f}_{n+i}=f(t_{n+i}, \bar{u}_{n+i}), t_{n+i}=t_{n}+i h, i\in \{v, s_{i}, s_{2}, s_{3}\}, 0<v, s_{i}<1.$
+ Similarly, for Class II, the general form of the new methods results in the following form: 
+  \begin{align}
+ \bar{u}_{n+v}=u_{n}+h\sum_{j=1}^{3}\gamma_{j}f_{n-j}+ &  h(\gamma_{s_{1}}\bar{f}_{n+s_{1}}+\gamma_{s_{2}}\bar{f}_{n+s_{2}}+\gamma_{s_{3}}\bar{f}_{n+s_{3}}), \label{2.2}\\
+u_{n+1}=u_{n}+h\sum_{j=1}^{3}\beta_{j}f_{n-j}+ &  h(\beta_{s_{1}}\bar{f}_{n+s_{1}}+\beta_{s_{2}}\bar{f}_{n+s_{2}}+\beta_{s_{3}}\bar{f}_{n+s_{3}}+\beta_{v}\bar{f}_{n+v}). \label{2.3}
+\end{align}
+  Equations $2.1$ and $2.2$ represent a hybrid method with three off-step points that are used to approximate the $\bar{s}_{n+v}$  used in the  equation $2.2$.
+By implementing the same process used in references \cite{ALI6}  and \cite{ALI1,ALI5}, the coefficients of the new methods are obtained by choosing the appropriate values ​​of $s_{i}, i=1,2,3$ and $v$. The order of these methods will be reviewed in the next section.
+
+
+%%%%
+\section{\textbf{Order of truncation error}}
+In this section, the order of explicit multi-step methods is examined. Assume that Boucher's method is of order 6. 
+The coefficients of stage equation $(2.2)$   and equation $(2.3)$  of orders $\ p-1=6$,    and  $p=7$,  respectively. 
+Thus, using the stage equation $(2.2)$ in the method $(2.3)$,   one can prove that
+the new method $(2.2)-(2.3)$ is of order $p$,  $p=7$. Assume that the
+solution of $(2.1)$ has the target continuous  derivatives. Hence, the difference operator associated with method $(2.1)$ is
+\begin{equation}\label{3.1}
+u(t_{n+i}) -\bar{u}_{n+i}=C_{i}h^{p}u^{(p)}(t_{n})+O(h^{p+1})
+\end{equation}
+where  $C_{i}$ is the error constant, when the method is used to obtain   $\bar{u}(t_{n+i})$ for $t_{n+i}=t_{n}+i h,\,i\in\{s_{1},\, s_{2},\,s_{3},\,v\}$.
+Similarly, one can obtain the difference operator associated with method $(2.2)$ as  follows
+\begin{equation}\label{3.2}
+ u(t_{n+v}) -\bar{u}_{n+v}=C_{v}h^{p}u^{(p)}(t_{n})+O(h^{p+1}),
+\end{equation}
+where   $C_v$ is the error constant,   when the method is used to obtain  $\bar{u}(t_{n+v})$ and $t_{n+v}=t_{n}+vh$.
+On the other hand, for method $(2.3)$ of order $p=7,$
+the difference operator can take the form as
+\begin{equation}\label{3.3}
+ u(t_{n+1}) -u_{n+1}=Ch^{p+1}y^{(p+1)}(t_{n})+O(h^{p+2}),
+\end{equation}
+where $C$ is the  related error constant. In the following theorem, we are going to prove that the whole method presented in this work is of order $p.$
+ \begin{theorem}\label{thm1}
+ Suppose  that
+\begin{itemize}
+  \item the equation $(2.1)$ be of order $p-1=6$,
+  \item  the equation $(2.2)$ be of order $p-1=6$,
+\item  the equation $(2.3)$ be of order $p=7$.
+\end{itemize}
+Therefor, the   method $(2.2)-(2.3)$ is of order   $p=7$.
+\end{theorem}
+\begin{proof}
+Assume that all used
+ $u_{n-j},\,j=1,2,\ldots,5,$  be exact. From$(2.3)$ and $(3.3)$, we get
+\begin{align}\label{3.4}
+  u(t_{n+1}) -u_{n+1}=
+  h\beta_{v}&[f(t_{n+ v},u(t_{n+v}))-f(t_{n+ v},\bar{u}_{n+v})]+\\
+    h\beta_{s_{1}}&[f(t_{n+ s_{1}},u(t_{n+s_{1}}))
+-f(t_{n+ s_{1}},\bar{u}_{n+s_{1}})]
++Ch^{p+1}u^{(p+1)}(t_{n})+O(h^{p+2}),\nonumber
+\end{align}
+and from $(2.1)$ and $(3.1)$ we
+obtain
+\begin{align}\label{3.5}
+  u(t_{n+s_{i}}) -u_{n+s_{i}}=
+  h\gamma _{i}[& f(t_{n+ s_{i}},u(t_{n+s_{i}}))
+-f(t_{n+ s_{i}},\bar{u}_{n+s_{i}})]
++C_{i}h^{p}u^{(p)}(t_{n})+O(h^{p+1}),%\nonumber
+\end{align}
+for $i=\in \{1,\,2,\,3\}.$ There are $\gamma_{n+s_{i}}$ and $\gamma_{n+v}$ in  $( \bar{u}_{n+s_{i}},\,u(t_{n+s_{i}} )),\,i=1,\,2,\,3,$  
+and $( \bar{u}_{n+v},\,u(t_{n+v} ))$  respectively,
+such that we have
+\begin{align}
+f(t_{n+s_{i}},u(t_{n+ s_{i}}))-f(t_{n+ s_{i}},\bar{u}_{n+s_{i}}) &=\frac{\partial f}{\partial u}(t_{n+s_{i}},\gamma_{n+s_{i}})
+(u(t_{n+s_{i}})-\bar{u}_{n+s_{i}})\\
+&=L_{i}(u(t_{n+s_{i}})-\bar{u}_{n+s_{i}}),\nonumber\\
+ f(t_{n+v},u(t_{n+ v}))-f(t_{n+ v},\bar{u}_{n+v}) &=\frac{\partial f}{\partial u}(t_{n+v},\gamma_{n+v})
+(u(t_{n+v})-\bar{u}_{n+v})\\
+&=L_{v}(u(t_{n+v})-\bar{u}_{n+v}).\nonumber
+\end{align}
+Then, from \eqref{3.4}--$(3.7)$ together with  $(3.2)$, we obtain
+\begin{align*}\label{}
+  u(t_{n+1}) -u_{n+1}=&
+  h\beta_{s_{1}}L_{1}(C_{1}h^{p}u^{(p)}(t_{n})+O(h^{p+1}))\\
+ & +h\beta_{v}L_{v}(\sum_{i=1}^{3}\gamma_{s_{i}}\frac{\partial f}{\partial u}(t_{n+s_{i}},\gamma_{n+s_{i}})(u(t_{n+s_{i}})-\bar{u}_{n+s_{i}})+C_{v}h^{p}u^{(p)}(t_{n}))\\ 
+  &+Ch^{p+1}u^{(p+1)}(t_{n})+O(h^{p+2})\\
+=& h\beta_{s_{1}}L_{1}C_{1}h^{p}u^{(p)}(t_{n}) +h\beta_{v}L_{v}\sum_{i=1}^{3}h\gamma_{s_{i}}L_{i}C_{i}h^{p}u^{(p)}(t_{n})+C_{v}h^{p}u^{(p)}(t_{n})\\ 
+  &+Ch^{p+1}u^{(p+1)}(t_{n})+O(h^{p+2})  
+\end{align*}
+This shows that
+\begin{align*}\label{}
+  u(t_{n+1}) -u_{n+1}=& h^{p+1}u^{(p)}(t_{n})\bigg[\beta_{s_{1}}L_{1}C_{1} +\beta_{v}L_{v}\sum_{i=1}^{3}h\gamma_{s_{i}}L_{i}C_{i}+C_{v} 
+ +Cu^{(p+1)}(t_{n})\bigg]+O(h^{p+2}) 
+\end{align*}
+Hence, it can be concluded  that the method $(2.1)-(2.3)$ is of order $p$ and the proof is  completed.
+\end{proof}
+\noindent
+In the same way, the following relationship can be proved for  Class II, i.e. $(2.4)-(2.5)$ and $(2.1)$, which shows that the method is of at least order $p=7$:
+\begin{align*}\label{}
+  u(t_{n+1}) -u_{n+1}=&\\
+   h^{p+1}u^{(p)}(t_{n})&\bigg[\sum_{i=1}^{3}\beta_{s_{i}}\sum_{i=1}^{3}h\gamma_{s_{i}}L_{i}C_{i} +\beta_{v}L_{v}\sum_{i=1}^{3}h\gamma_{s_{i}}L_{i}C_{i}+C_{v} 
+ +Cu^{(p+1)}(t_{n})\bigg]+O(h^{p+2}) 
+\end{align*}
+Hence, we have the following theorem:
+\begin{theorem}\label{thm1}
+ Suppose  that
+\begin{itemize}
+  \item the equation $(2.1)$ be of order $p-1=6$,
+  \item  the equation $(2.4)$ be of order $p-1=6$,
+\item  the equation $(2.5$ be of order $p=7$.
+\end{itemize}
+Therefor, the   method $(2.4)-(2.5)$  and $(2.1)$ is of order   $p=7$.
+\end{theorem}
+\vspace{0.1 cm}
+\section{\textbf{Stability Analysis }}
+Consider the  Eqns. $(2.1)-(2.3)$. For the stability of  new methods, we consider the Dahlquist test equation $u^{'}=\lambda u,\,\lambda <0$. We suppose that $\bar{h}=\lambda h.$ By applying this function in Eqns. $(2.1)-(2.2)$, we will have:
+\begin{align}
+u_{n+i}=&\bigg[\sum_{j=0}^{6}\frac{(i\bar{h})^j}{j!}-\frac{(i\bar{h})^7}{2160}\bigg]u_{n}=\bigg[\sum_{j=0}^{7}c_{j}(i\bar{h})^j\bigg]u_{n},\,i\in\{s_{1}\,,s_{2},\,s_{3},\,v\}\label{4.1}\\
+u_{n+v}=&\bigg[u_{n}+\bar{h}\sum_{j=1}^{3}\gamma_{s_{i}} u_{n+s_{i}} +\bar{h}\sum_{j=1}^{3}\gamma_{j} u_{n-j}\bigg]\\=&
+\bigg[u_{n}+\bar{h}u_{n}\sum_{i=1}^{3}\gamma_{s_{i}} (\sum_{j=0}^{7}c_{j}(i\bar{h})^j) +\bar{h}\sum_{j=1}^{3}\gamma_{j} 
+u_{n-j}\bigg],\nonumber
+\end{align}
+In the same way, from the  Eqn. $(2.3)$ (after applying the latter difference equations, i.e., Eqns. $(4.1)-(4.2)$ ) we will have the following difference equation:
+\begin{align}
+u_{n+1}=&\bigg[u_{n}+\bar{h}\sum_{j=1}^{5}\beta_{j} u_{n-j} +\bar{h}\beta_{s_{1}} u_{n+s_{1}}+\bar{h}\beta_{v} u_{n+v}\bigg]\\=&
+u_{n}+\bar{h}\sum_{j=1}^{5}\beta_{j} u_{n-j} +\bar{h}\beta_{s_{1}} \bigg[\sum_{j=0}^{7}c_{j}(i\bar{h})^ju_{n}\bigg]+\bar{h}\beta_{v}\bigg[u_{n}+\bar{h}u_{n}\sum_{i=1}^{3}\gamma_{s_{i}} (\sum_{j=0}^{7}c_{j}(i\bar{h})^j) +\bar{h}\sum_{j=1}^{3}\gamma_{j} 
+u_{n-j}\bigg].\nonumber
+\end{align}
+Now, in order to use  boundary locus method in determining the stability region, we put  $y_{n+1-j}=r^{n+1-j},$ for
+$j,\, 0\leq j \leq 6$ and $r=e^{i\theta},$  ($i$  is complex) in  the  Eq. $4.3$  and multiplying  that by $e^{-in\theta},$ we gain the
+following characteristic equation
+\begin{align}
+e^{i\theta}=&
+1+\bar{h}\sum_{j=1}^{5}\beta_{j} e^{-ji\theta}+\bar{h}\beta_{s_{1}}\sum_{j=0}^{7}c_{j}(i\bar{h})^j+\bar{h}\beta_{v}\bigg[1+\bar{h}\sum_{i=1}^{3}\gamma_{s_{i}} (\sum_{j=0}^{7}c_{j}(i\bar{h})^j) +\bar{h}\sum_{j=1}^{3}\gamma_{j} 
+e^{-ji\theta}\bigg],\nonumber
+\end{align}
+ The stability domain are given by using the boundary locus method when  optimal values of $s_{1},\,s_{2},\,s_{3}$ and $v$) are selected to make the whole method have whder stability region as shown in Fig. $4.1$ together with all coefficients for 4 cases in Table 1.
+ To obtain the stability polynomial of the second category of methods, with the same process, we will have:
+ \begin{align*}
+e^{i\theta}=1+\bar{h}\sum_{j=1}^{5}\beta_{j} e^{-ji\theta}&\\
++\bar{h}\sum_{i=1}^{3}\beta_{s_{i}}\sum_{j=0}^{7}c_{j}(i\bar{h})^j&+\bar{h}\beta_{v}\bigg[1+\bar{h}\sum_{i=1}^{3}\gamma_{s_{i}} (\sum_{j=0}^{7}c_{j}(i\bar{h})^j) +\bar{h}\sum_{j=1}^{3}\gamma_{j} 
+e^{-ji\theta}\bigg].\nonumber
+\end{align*}
+For stability regions and related coefficients  see Fig. $4.2$ and Table 1 (Cases V-VIII). 
+\begin{small}
+ \begin{table}
+\caption{Coefficients of new explicit multistep methods of order 7.}
+\begin{tabular}{lrrrr}
+\hline\\
+&Case $1$\qquad\qquad\qquad&Case $2$\qquad\qquad\qquad& Case $3$ \qquad\qquad\qquad& Case $4$\qquad\qquad\qquad \\\\
+$v$         &7.497500000000000e-01& 7.381000000000000e-1& 7.500000000000000e-1&  7.500000000000000e-1  \\
+$s_{1}$    &5.559000000000000e-2&6.900000000000001e-2&5.700000000000000e-2&  5.557000000000000e-2  \\%z15
+ $s_{2}$    &7.497500000000000e-1&7.381000000000000e-1 & 7.500000000000000e-1&   7.500000000000000e-1  \\%z14
+ $s_{3}$    &6.515000000000000e-1&  6.510000000000000e-1 &6.510000000000000e-1 &    6.518000000000000e-1  \\\\%u
+         
+ $\beta_{1}$  & -4.181546749556467e-2&-2.362403586979717e-4     &  -4.127617411308351e-2 & -4.250085985531913e-2 \\
+ $\beta_{2}$    & 1.395574980492818e-2&-1.894850768734279e-2   & 1.370025898978790e-2 & 1.452305850944026e-2  \\
+ $\beta_{3}$      &-2.860948153927947e-3&   1.467316193024094e-2 & -2.758466330307044e-3  &-3.168268385075861e-3 \\
+ $\beta_{4}$     &1.011862704472235e-4&-5.336413975390209e-3  & 7.482820315961998e-5   &1.973066868020852e-4\\
+ $\beta_{5}$    &5.241800232153655e-5& 7.923118085559395e-4  &5.555344400945719e-5   &3.927068936402120e-5 \\
+ $\beta_{s_{1}}$&4.242359566491146e-1& 3.830247650916964e-1 & 4.245699494178474e-1     & 4.250336060707763e-1\\
+  $\beta_{v}$     &6.063311049226811e-1&6.260309231909377e-1 &6.056340503885862e-1    & 6.058758862840123e-1 \\\\
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+   
+  $\gamma_{1}$ & -1.665181025380144e-2& -1.439439084558177e-2&-1.642537288723558e-2 & -1.668130076929598e-2  \\
+  $\gamma_{2}$ &3.862563105400285e-3&3.370254950918497e-3&3.814159959113054e-3     &  3.869953980854403e-3 \\
+  $\gamma_{3}$ &-4.840493688894119e-4&-4.236211037494974e-4&-4.781597898958415e-4       & -4.850074118151965e-4 \\
+   $\gamma_{s_{1}}$ &3.371269193228168e-1&3.413705621668585e-1& 3.376202724598872e-1      & 3.372776042926753e-1  \\
+  $\gamma_{s_{2}}$ & -2.598338533030448e-1& -2.962900330637014e-1& -2.546088094641816e-1     & -2.603661171419382e-1  \\
+  $\gamma_{s_{3}}$&6.857302304975186e-1&7.044672278952557e-1 & 6.800779097223127e-1        & 6.863848670495197e-1 \\ \\
+ 
+ \hline\\
+&Case $5$\qquad\qquad\qquad&Case $6$\qquad\qquad\qquad& Case $7$ \qquad\qquad\qquad& Case $8$\qquad\qquad\qquad \\\\
+ $v$         &9.720000000000000e-01&  8.700000000000000e-01& 9.560000000000000e-01& 6.700000000000000e-01  \\
+$s_{1}$    &6.620000000000000e-01&6.087500000000000e-01&6.450000000000000e-01& 2.650000000000000e-01 \\%z15
+ $s_{2}$    &4.413333333333334e-01&2.771875000000000e-01& 4.780000000000000e-01&  4.520000000000000e-01 \\%z14
+ $s_{3}$    & 2.972000000000000e-01&   1.467500000000000e-01 &3.186666666666667e-01&   2.800000000000000e-01  \\\\%u
+         
+  
+ $\beta_{1}$  & 3.100560490274305e-03 & 5.372773816723972e-04&   3.751506116821864e-03& 6.142920418131966e-03 \\
+ $\beta_{2}$    & -3.890562632263788e-04 &1.191702206656344e-04 &-4.813410056493083e-04& -1.812592002023715e-04 \\
+ $\beta_{3}$      &3.163635440565088e-05&  -2.869233821877939e-05 & 3.917329055357543e-05& -5.093196138420467e-05\\
+ $\beta_{s_{1}}$     & -7.582530902638900e-01&2.443069820953702e-01 &-1.094152884856314e+00&-3.860776337425506e+00\\
+ $\beta_{s_{2}}$    &6.726990631968707e-01 & 2.486803700903021e-01&8.826347370057444e-01& -1.814731042223240e+01\\
+ $\beta_{s_{3}}$&  9.791927098944818e-01& 2.197972106496590e-01& 1.095871764011450e+00& 2.141467222519853e+01\\
+  $\beta_{v}$     &1.036181765910839e-01& 2.865876819005495e-01&1.123370454373935e-01&  1.587503805202842e+00 \\\\
+ %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+     
+      
+  $\gamma_{1}$ & -1.222267422996227e-02 &  -2.015868636362799e-02&-6.709704028587437e-3&  -1.542099180040779e-03 \\
+  $\gamma_{2}$ & 3.839124522645929e-03&   4.925299942400093e-03&2.429454731883408e-3& 4.873721434688930e-04 \\
+  $\gamma_{3}$ & -5.364054446809966e-04&   -6.282767500419990e-04&-3.529907864360312e-4&  -6.612497541537439e-05\\
+   $\gamma_{s_{1}}$ & -1.684633430621086e+00 & -6.484289000585688e-01& -1.927849813527623e+0 &   8.808390961656403e-01 \\
+  $\gamma_{s_{2}}$ &1.521033704823799e+00 & 8.398396349786441e-01& 1.493874746588969e+0&  -7.925311105700031e+00  \\
+  $\gamma_{s_{3}}$&1.144519680949284e+00 &6.944509282511946e-01& 1.394608307021793e+0 & 7.715592861546378e+00 \\ \\
+
+
+     
+\end{tabular}
+\end{table}
+\end{small}
+%%%%%%%%%%%%%%%%%%%%%%%
+\begin{small}
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=0.851\textwidth]{110.png}
+  \caption{Stability regions  of the  first class of new hybrid explicit methods (4 cases ) }
+  \label{fig:example}
+\end{figure}
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=0.851\textwidth]{111.png}
+  \caption{Stability regions of the second class of hybrid explicit methods (4 cases). }
+  \label{fig:example}
+\end{figure}
+\begin{figure}[t]
+  \centering
+  \includegraphics[width=0.51\textwidth]{RKB6.png}
+  \caption{Stability region of the RK type Butcher method of order 6.}
+  \label{fig:example}
+\end{figure}
+\end{small}
+\section{\textbf{Numerical Computation}}
+\noindent
+In this section, three test problems related to differential systems arising from chemistry problems are presented, and then they are solved with new explicit hybrid methods and numerical solutions are presented. In order to check the results, the examples are also solved by the 6th order Boucher method.\\
+\noindent
+\textbf{Problem $\mathbf{1}$:}
+Consider the following stiff  IVP arose from a chemistry problem\cite{ALI5,ALI2,ALI1}:
+\begin{align*}\label{}
+y'_{1}=& -0.013 y_{2}-1000y_{1}y_{2}-2500y_{1}y_{3},\\
+y'_{2}=& -0.013y_{2}-1000y_{1}y_{2},\\
+y'_{3}=& -2500y_{1}y_{3}:
+\end{align*}
+The  refrence solution of this  problem is  $$y(2)=(-0.3616933169289e-5,\, 0.9815029948230, \,1.018493388244)^{T}$$
+at the end point of integration interval $[0,\,2]$with the initial value $y(0)=(0,\,1,\,1)^{T}$. 
+\vspace{0.2 cm}\\
+\noindent
+\textbf{Problem $\mathbf{2}$:}
+In the stiff system of differential equations presented in \cite{Q24}, the initial component changes gradually within a defined time frame while the second component rapidly diminishes during the transient phase:
+\begin{eqnarray*}
+u_{1}^{'}(t)= -10^{-5}\times u_{1}(t)+10^{2}\times u_{2}(t),&\\
+u_{2}^{'}(t)= -10^{2}\times u_{1}(t)-10^{-5}\times u_{2}(t).
+\end{eqnarray*}
+The exact solution and initial values for this problem are as follows:
+\[u_{1}(t)=\exp( -10^{-5}t)\sin(100t),\,u_{1}(t)=\exp( -10^{-5}t)\cos(100t),\]
+\[u_{1}(0)=0,\, u_{2}(0)=1, 0\leq t \leq 1.\]
+%%%%%%%%%%%%%%%%%
+\vspace{0.2 cm}\\
+\noindent
+\textbf{Problem $\mathbf{3}$:}
+ Consider the fillowing non-linear chemical problem, known as the Robertson’s chemical enigma, previously analyzed by Mazzia and Iavernaro \cite{Q24}:
+\begin{eqnarray*}
+u_{1}^{'}(t)= -10^{4}\times u_{2}(t)\times u_{3}(t)-\frac{u_{2}(t)}{25},\, u_{1}(0)=1\\
+u_{2}^{'}(t)=\frac{u_{2}(t)}{25}-3\times 10^{7}\times u_{2}(t)^{2}-10^{4}\times u_{2}(t)\times u_{3}(t),\, u_{2}(0)=0 \\
+u_{3}^{'}(t)=3\times 10^{7}\times u_{2}(t)^{2},\, u_{3}(0)=0,\,  0\leq t \leq 40.
+\end{eqnarray*}
+We utilized the following reference solution  at the concluding 
+point $t_{N}= 40$ given in [38] for comparing the maximum absolute errors:
+\begin{eqnarray*}
+u_{1}(t_{N})= 0.7158270687194135,\,u_{2}(t_{N})= 9.185534764558135 × 10^{-6},\, u_{3}(t_{N})= 0.28416374574582.
+\end{eqnarray*}
+\noindent
+The numerical results obtained from the new explicit methods of the 7th order as well as Boucher's explicit method of the 6th order for solving all three test problems are shown in Table 2.
+\begin{small}
+\begin{table}
+\begin{center}
+\caption{ Comparative results for  Problems $1-3$ using new methods (Case II \& IV).}
+\begin{tabular}{ccccc}
+\hline\\
+%$M=49,\,N=1000:$&&&&\\
+Example 1:&Method&N&Max error &Min error  \\\\
+
+ &Case 2:&                                    5000 & 3.357625288913368e-11&3.269547176401599e-19\\
+ &&                                              2000 & 3.376565693713474e-11&1.332382826031014e-18\\\\
+ 
+  &Case 4:&                                    5000 & 3.356714906033176e-11&2.807914220148006e-19\\
+ &&                                              2000 & 3.357447653229428e-11&3.354250471127029e-19\\\\
+ 
+ &Case 5:&                                    5000 &3.356648292651698e-11&2.769797737521562e-19\\
+ &&                                              2000 & 3.357403244308443e-11&3.388131789017201e-19\\\\
+
+ 
+   &Case 8:&                                    5000 &3.356581679270221e-11&2.973085644862594e-19\\
+ &&                                              2000 & 3.356381839125788e-11&3.328839482709400e-19\\\\
+ 
+   &RKB6:&                                    5000 &3.356559474809728e-11&2.286988957586611e-20\\
+ &&                                              2000 & -&-\\\\
+
+ Example 2:&Method&N &Max error &Min error  \\\\
+
+ &Case 2&                                                       10000 & 3.486100297322992e-14  &   2.675637489346627e-14 \\
+  &         &                                                       1000 & 1.047392772512978e-08    & 3.709156648490364e-09 \\\\
+  
+ &Case 4&                                    10000 &6.294964549624638e-14 &  5.051514762044462e-14\\
+ &&                                               1000 & 6.378116035321568e-09   &  2.570329504791857e-10\\\\
+ 
+    &Case 5:&                                    10000 &1.166622354276114e-12  &   6.721290191080698e-13\\
+ &&                                              1000 &3.511846369264049e-10    & 2.860005565707979e-10\\\\
+
+ 
+    &Case 8:&                                    10000 &1.579403274831748e-12&1.958433415438776e-13\\
+ &&                                              1000 &8.085196068208234e-09    & 5.561003879606119e-09\\\\
+ 
+ &RKB6:&                                10000 &6.838973831690964e-14   &  4.196643033083092e-14\\
+ &&                                              1000 &5.354692289571972e-08   &  3.881386201332049e-08\\\\
+
+ 
+  Example 3:&Method&N &Max error &Min error  \\\\
+
+ &Case 2:&                                                       30000  &   7.863154571907671e-13  &    3.046608104684267e-17 \\
+ &           &                                                       22000    & 5.039302308773586e-12   &  1.960440815761133e-16\\\\
+ 
+ &Case 4:&                                               30000 &3.048672425620680e-13     &1.149593116013536e-17\\
+ &           &                                               22000 &1.506787777910039e-11    & 2.913835839279955e-12\\\\
+ 
+ 
+     &Case 5:&                                30000 & 3.097522238704187e-14   &  1.378969638130001e-18\\
+ &&                                              22000 &2.599032100647491e-13    & 1.004411668854149e-17\\\\
+
+ 
+     &Case 8:&                                30000 &2.635669460460122e-13   &  1.010171492895479e-17\\
+ &&                                              22000 &8.115730310009894e-14   &  1.551764359369878e-18\\\\
+
+    &RKB6:&                                50000 &1.003641614261142e-13   &  3.062650908705264e-16\\
+ &&                                              22000 &-   &  -\\\\
+
+\hline\\
+\end{tabular}
+\end{center}
+\end{table}
+\end{small}
+\newpage
+%%%%%%
+\section{\textbf{Conclusion}}
+In this article, two new categories of explicit hybrid methods based on hybrid points were presented. Although these methods are not very similar to Runge-Kutta methods, by using the 6th-order Boucher method, a composite method of multi-step and single-step Runge-Kota methods was obtained. The stability areas of these methods are wider compared to Runge-Kutta methods, which can be seen in Fig. $1.3$. The numerical results related to the new and existing methods presented in Table $2$ show the effectiveness of the methods.
+% {\bf Acknowledgments.}
+
+\begin{thebibliography}{}
+\bibitem{ALI6}Ebadi, M., Shahriari, M. \emph{A class of two stage multistep methods in solutions of time dependent parabolic PDEs.} \textbf{Calcolo} 61, 4(2024).  https://doi.org/10.1007/s10092-023-00557-x
+
+\bibitem{Q24}Sania Qureshi, Higinio Ramos, Amanullah Soomro, Olusheye Aremu Akinfenwa, Moses Adebowale Akanbi, \emph{Numerical integration of stiff problems using a new time-efficient hybrid block solver based on collocation and interpolation techniques.} \textbf{Mathematics and Computers in Simulation,} 220 (2024).  https://doi.org/10.1016/j.matcom.2024.01.001
+
+\bibitem{R23}Rufai, M.A., Carpentieri, B.,  Ramos, H.\emph{A New Hybrid Block Method for Solving First-Order
+Differential System Models in Applied Sciences and Engineering.} \textbf{Fractal Fract. } 7, 703 (2023).  https://
+doi.org/10.3390/fractalfract7100703
+
+\bibitem{ALEX77}  R. Alexander, \emph{Diagonally implicit Runge-Kutta methods for stiff ODEs,} \textbf{SIAM} J. Nume. Anal. 14, 1006--10021 (1977).
+
+\bibitem{BARG78}  K. Burrage, \emph{A special family of Runge-Kutta methods for solving stiff differential equations,} \textbf{BIT} 18, 22-41 (1978).
+\bibitem{BARG80}  K. Burrage, J. C. Butcher and F. H. Chipman, \emph{An implementation of  singly-implicit Runge-Kutta methods,} \textbf{BIT} 20, 326-340 (1980).
+ \bibitem{JC96}  J. C. Butcher, J. R. Cash and M. Diamantakis, \emph{DESI  methods  for stiff initial value problems,} ACM Trans. Math. Software, 22, 401--422, (1996).
+\bibitem{JC}  J.C. Butcher , W.M. Wright, \emph{Applications of doubly companion matrices,} Appl. Numer. Math. 56, 358--373, (2006).
+
+\bibitem{JC98}  J. C. Butcher and M. Diamantakis, \emph{DESIRE: Diagonally extended  singly-implicit Runge-Kutta effective order methods,} Numer. Algorithms, 17, 121--145, (1998).
+\bibitem{TEZ95}  M. Diamantakis, \emph{Diagonally extended  singly-implicit Runge-Kutta methods for stiff IVPs ,} Ph.D. Thesis, Imperial college, London, 1995.
+    \bibitem{MTD}
+ M. T. Diamantakis, \emph{The NUMOL solution of time dependent PDEs using DESI Runge-Kutta formulae,} Appl. Num. Maths., 17, 235-249, (1995).
+ \bibitem{ALI3} 
+ M. Ebadi,  {\em A class of multistep methods based on a super-future points technique for solving IVPs.}  Comput. Math. with Appl., 61(11), 3288--3297 (2011).
+ \bibitem{ebadiijim}
+\bibitem{ALI5}
+ M. Ebadi,  {\em New class of hybrid BDF methods for the computation of numerical solutions of IVPs}. Numer. Algorithms, 79(1), 179--193 (2018).
+\bibitem{ALI4}
+ M. Ebadi and  M. Y. Gokhale, \emph{Solving nonlinear parabolic PDEs via extended hybrid BDF methods,} Indian J. Pure Appl. Math. 45(3), 395-412 (2014).
+\bibitem{ALI2} 
+ M. Ebadi and M. Y. Gokhale, \emph{Class 2+1 hybrid BDF-like methods for the numerical solutions of ordinary differential equations,} \textbf{Calcolo} 48(4), 273--291 (2011).
+\bibitem{ALI1}
+ M. Ebadi and M. Y. Gokhale,  \emph{Hybrid BDF methods for the numerical solutions of ordinary differential equations,} Numer. Algorithms, 55, 1--17, (2010).
+ \bibitem{OCP1}
+  Ebadi, M., Malih maleki, I.,  and Ebadian, A. \emph{New class of hybrid explicit methods for numerical solution of optimal control problems,} IJNAO, 11(20) (2021), 283-304.
+   \bibitem{OCP2}
+  Ebadi, M., Malih maleki, I., Haghighi, A.R., and Ebadian, A.  \emph{FBSM Solution of Optimal Control Problems
+Using Hybrid Runge-Kutta Based Methods,} J. Math. Ext.,
+Vol. 15, No. 4, (2021) (14), 1-35.
+
+ \bibitem{OCP3}
+ Ebadi, M., Malih maleki, I., Haghighi, A.R., and Ebadian, A. \emph{An explicit
+single-step method for numerical solution of optimal control problems,} Int.
+J. Ind. Math. 13(1) (2021), 71–89.
+
+
+\bibitem{HAW}  E. Hairer and G. Wanner,\emph{ Solving ordinary differential equations II: Stiff and differential--algebraic problem,}  Springer, Berlin, (1996).
+\bibitem{16}
+\bibitem{m2}
+M. Izadi, P. Roul,  \emph{Spectral semi-discretization algorithm for a class of nonlinear parabolic PDEs with applications}, AMC, 429, 127226, (2022).
+
+
+ Toshyuki Koto,  \emph{IMEX Runge-Kutta schemes for reaction-diffusion  equations,} J. Comp. Appl. Maths., 215, 182--195, (2008).
+\bibitem{LAM}
+ J.D. Lambert, \emph{Computational methods in ordinary differential equations,}  John Wiley and Sons, London, pp. 143-144 (1972).
+\bibitem{SMH}
+ J. Lowson, M. Berzins and P. M. Dew, \emph{Balancing space and time errors in the method of lines for parabolic equations, } SIAM J. Sci. Stat. Comput. 12(3), 573-594, (1991).
+ \bibitem{WBRk_6}
+Walters SJ, Turner RJ, Forbes LK. \emph{A comparison of explicit Runge-Kutta methods.} The Anziam Journal.;64(3):227-249 (2022). doi:10.1017/S1446181122000141
+\end{thebibliography}
+\end{document}
+- 
